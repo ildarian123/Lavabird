@@ -5,17 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.lavabird.Base.entity.NotificationDb;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    private List<NotificationItem> notificationItemList;
+    private List<NotificationDb> notificationItemList;
 
-    public NotificationAdapter(List<NotificationItem> notificationItemList) {
+    public NotificationAdapter(List<NotificationDb> notificationItemList) {
         this.notificationItemList = notificationItemList;
     }
 
@@ -31,11 +30,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        holder.name_of_app.setText(notificationItemList.get(position).getName_of_app());
-        holder.notification_text.setText(notificationItemList.get(position).getNotification_text());
-        holder.date_of_notification.setText(notificationItemList.get(position).getDate_of_notification());
-        holder.time_of_notification.setText(notificationItemList.get(position).getTime_of_notification());
-        holder.notification_image.setText(notificationItemList.get(position).getNotification_image());
+        holder.name_of_app.setText(notificationItemList.get(position).name_of_app);
+        holder.notification_text.setText(notificationItemList.get(position).notification_text);
+        holder.date_of_notification.setText(notificationItemList.get(position).date_of_notification);
+        holder.time_of_notification.setText(notificationItemList.get(position).time_of_notification);
+        holder.notification_image.setText(notificationItemList.get(position).notification_image);
     }
 
     @Override
