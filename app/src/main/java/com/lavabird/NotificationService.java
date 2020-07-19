@@ -1,77 +1,67 @@
 package com.lavabird;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.Notification;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+/**
+ * MIT License
+ *
+ *  Copyright (c) 2016 Fábio Alves Martins Pereira (Chagall)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 public class NotificationService extends NotificationListenerService {
 
-    private String TAG = this.getClass().getSimpleName();
-    private NLServiceReceiver nlservicereciver;
     @Override
-    public void onCreate() {
-        super.onCreate();
-        nlservicereciver = new NLServiceReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.kpbird.nlsexample.NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
-        registerReceiver(nlservicereciver,filter);
+    public IBinder onBind(Intent intent) {
+        return super.onBind(intent);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(nlservicereciver);
-    }
+    public void onNotificationPosted(StatusBarNotification sbn){
 
-    @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
+        Log.v("aaaa","aaaa");
+        String pack = sbn.getPackageName();
 
-        Log.i(TAG,"**********  onNotificationPosted");
-        Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText + "t" + sbn.getPackageName());
-        Intent i = new  Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-        i.putExtra("notification_event","onNotificationPosted :" + sbn.getPackageName() + "n");
-        sendBroadcast(i);
+        Bundle extras = sbn.getNotification().extras;
 
-    }
+        int iconId = extras.getInt(Notification.EXTRA_SMALL_ICON);
+        Drawable bmp;
+        try {
+            bmp = getPackageManager().getResourcesForApplication(pack).getDrawable(extras.getInt(Notification.EXTRA_SMALL_ICON));
+        } catch (PackageManager.NameNotFoundException e) {
+            bmp = null;
+            e.printStackTrace();
+        }
 
-    @Override
-    public void onNotificationRemoved(StatusBarNotification sbn) {
-        Log.i(TAG,"********** onNOtificationRemoved");
-        Log.i(TAG,"ID :" + sbn.getId() + "t" + sbn.getNotification().tickerText +"t" + sbn.getPackageName());
-        Intent i = new  Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-        i.putExtra("notification_event","onNotificationRemoved :" + sbn.getPackageName() + "n");
-
-        sendBroadcast(i);
-    }
-
-    class NLServiceReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra("command").equals("clearall")){
-                NotificationService.this.cancelAllNotifications();
-            }
-            else if(intent.getStringExtra("command").equals("list")){
-                Intent i1 = new  Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-                i1.putExtra("notification_event","=====================");
-                sendBroadcast(i1);
-                int i=1;
-                for (StatusBarNotification sbn : NotificationService.this.getActiveNotifications()) {
-                    Intent i2 = new  Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-                    i2.putExtra("notification_event",i +" " + sbn.getPackageName() + "n");
-                    sendBroadcast(i2);
-                    i++;
-                }
-                Intent i3 = new  Intent("com.kpbird.nlsexample.NOTIFICATION_LISTENER_EXAMPLE");
-                i3.putExtra("notification_event","===== Notification List ====");
-                sendBroadcast(i3);
-
-            }
+        System.out.println();
+        if (extras.containsKey(Notification.EXTRA_PICTURE)) {
+            // this bitmap contain the picture attachment
 
         }
+            Intent intent = new Intent("com.lavabird.NotificationListenerService");
+            intent.putExtra("notif_image", ((BitmapDrawable)bmp).getBitmap());
+            sendBroadcast(intent);
     }
+
 }

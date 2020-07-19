@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Lavabird</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">START</string>
+    <string name="service_name">NotificationListenerService</string>
+    <string name="service_label">NotificationListenerService</string>
+    <string name="notification_listener_service">"Notification Listener Service"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="notification_listener_service_explanation">servoce_explanation</string>
 </resources>

@@ -23,5 +23,13 @@
         android:text="@string/start"
         android:id="@+id/startButton"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temp_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/startButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="massage"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
