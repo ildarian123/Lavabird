@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.lavabird.Base.dao.NotificationDao;
 import com.lavabird.Base.entity.NotificationDb;
-import com.lavabird.NotificationItem;
 
 import java.util.List;
 
@@ -14,9 +13,9 @@ public class DataBaseManagerImpl implements DataBaseManager {
     private Context context;
     private NotificationDao notificationDao;
 
-    public DataBaseManagerImpl(Context context) {
+    public DataBaseManagerImpl(Context context, NotificationDao notificationDao) {
         this.dataBase = NotificationDataBase.getDataBase(context);
-        this.notificationDao = dataBase.notificationDao();
+        this.notificationDao = notificationDao;
     }
 
     public void setContext(Context context) {
@@ -25,13 +24,12 @@ public class DataBaseManagerImpl implements DataBaseManager {
 
     @Override
     public List<NotificationDb> getNotifications() {
-        return notificationDao.getAll();
+        return notificationDao.getNotifications();
     }
 
     @Override
     public void saveNotificationToDb(NotificationDb notificationDb) {
         notificationDao.setNotification(notificationDb);
     }
-
 
 }

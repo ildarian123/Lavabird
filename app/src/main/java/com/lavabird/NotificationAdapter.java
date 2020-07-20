@@ -1,18 +1,27 @@
 package com.lavabird;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.lavabird.Base.entity.NotificationDb;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    private List<NotificationDb> notificationItemList;
+    public List<NotificationDb> notificationItemList;
 
     public NotificationAdapter(List<NotificationDb> notificationItemList) {
         this.notificationItemList = notificationItemList;
@@ -32,9 +41,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         holder.name_of_app.setText(notificationItemList.get(position).name_of_app);
         holder.notification_text.setText(notificationItemList.get(position).notification_text);
-        holder.date_of_notification.setText(notificationItemList.get(position).date_of_notification);
-        holder.time_of_notification.setText(notificationItemList.get(position).time_of_notification);
-        holder.notification_image.setText(notificationItemList.get(position).notification_image);
+        holder.date_of_notification.setText(String.valueOf(notificationItemList.get(position).date_of_notification));
+        holder.time_of_notification.setText(String.valueOf(notificationItemList.get(position).time_of_notification));
+
+        try {
+            File f = new File(notificationItemList.get(position).notification_image);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            holder.notification_image.setImageBitmap(b);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,7 +64,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView notification_text;
         TextView time_of_notification;
         TextView date_of_notification;
-        TextView notification_image;
+        ImageView notification_image;
 
         NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,4 +76,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
+    private void loadImageFromStorage(String path) {
+
+    }
 }

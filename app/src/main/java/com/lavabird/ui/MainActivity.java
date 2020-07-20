@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements MainView{
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
     private AlertDialog enableNotificationListenerAlertDialog;
+    private NotificationAdapter adapter;
+    private RecyclerView rv_notification_list;
 
     private NotificationAdapter notificationAdapter;
     private TextView txtView;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements MainView{
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();
             enableNotificationListenerAlertDialog.show();
         }
+        rv_notification_list = findViewById(R.id.rv_notification_list);
+        adapter = new NotificationAdapter(dataBaseManager.getNotifications());
+        rv_notification_list.setAdapter(adapter);
 
         txtView = (TextView) findViewById(R.id.temp_text_view);
 
@@ -91,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements MainView{
             Log.v("dddd","dddd");
             String temp = intent.getStringExtra("notification_event") + "n" + txtView.getText();
             txtView.setText(temp);
+            adapter.notificationItemList = dataBaseManager.getNotifications();
+            adapter.notifyDataSetChanged();
         }
     }
 

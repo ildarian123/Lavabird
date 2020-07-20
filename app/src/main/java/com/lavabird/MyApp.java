@@ -2,6 +2,7 @@ package com.lavabird;
 
 import android.app.Application;
 
+import com.lavabird.dagger.DaggerMainComponent;
 import com.lavabird.dagger.DepsManager;
 import com.lavabird.dagger.MainComponent;
 
