@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
         txtView = (TextView) findViewById(R.id.temp_text_view);
 
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
                 }
             }
         });
-
     }
 
     private void anableRecyclerList(List<NotificationDb> items) {
@@ -84,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
         notificationAdapter = new NotificationAdapter(items);
         notificationList.setAdapter(notificationAdapter);
-
     }
 
     class NotificationReceiver extends BroadcastReceiver {

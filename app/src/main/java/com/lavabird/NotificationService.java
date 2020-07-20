@@ -3,6 +3,7 @@ package com.lavabird;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,6 +11,13 @@ import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
+import com.lavabird.Base.entity.NotificationDb;
+import com.lavabird.ui.MainPresenter;
+
+import java.util.Calendar;
+
+import javax.inject.Inject;
 
 /**
  * MIT License
@@ -32,6 +40,9 @@ import android.util.Log;
  */
 public class NotificationService extends NotificationListenerService {
 
+    @Inject
+    MainPresenter mainPresenter;
+
     @Override
     public IBinder onBind(Intent intent) {
         return super.onBind(intent);
@@ -39,7 +50,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
-
+        MyApp.mainComponent.injectsNotificationService(this);
         Log.v("aaaa","aaaa");
         String pack = sbn.getPackageName();
 
@@ -48,7 +59,13 @@ public class NotificationService extends NotificationListenerService {
         int iconId = extras.getInt(Notification.EXTRA_SMALL_ICON);
         Drawable bmp;
         try {
+            NotificationDb notificationDb = new NotificationDb();
+
             bmp = getPackageManager().getResourcesForApplication(pack).getDrawable(extras.getInt(Notification.EXTRA_SMALL_ICON));
+            notificationDb.notification_image = bmp;
+            notificationDb.notification_text = sbn.getNotification().tickerText.toString();
+            notificationDb.time_of_notification = Calendar.getInstance().getTimeInMillis();
+            mainPresenter.saveNotificationToDataBase(notificationDb);
         } catch (PackageManager.NameNotFoundException e) {
             bmp = null;
             e.printStackTrace();

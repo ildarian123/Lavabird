@@ -1,5 +1,8 @@
 package com.lavabird.Base.entity;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -21,7 +24,7 @@ public class NotificationDb {
     public String notification_text;
 
     @ColumnInfo(name = "time_of_notification")
-    public String time_of_notification;
+    public long time_of_notification;
 
     @ColumnInfo(name = "date_of_notification")
     public String date_of_notification;

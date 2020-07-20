@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.lavabird.Base.dao.NotificationDao;
 import com.lavabird.Base.entity.NotificationDb;
+import com.lavabird.NotificationItem;
 
 import java.util.List;
 
@@ -26,4 +27,11 @@ public class DataBaseManagerImpl implements DataBaseManager {
     public List<NotificationDb> getNotifications() {
         return notificationDao.getAll();
     }
+
+    @Override
+    public void saveNotificationToDb(NotificationDb notificationDb) {
+        notificationDao.setNotification(notificationDb);
+    }
+
+
 }
