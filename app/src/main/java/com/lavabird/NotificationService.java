@@ -52,12 +52,16 @@ public class NotificationService extends NotificationListenerService {
         Drawable bmp;
         try {
             NotificationDb notificationDb = new NotificationDb();
+            final String packageName = sbn.getOpPkg();
+            PackageManager packageManager= getApplicationContext().getPackageManager();
+            String appName = (String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA));
 
-            bmp = getPackageManager().getResourcesForApplication(pack).getDrawable(extras.getInt(Notification.EXTRA_SMALL_ICON));
+            bmp = getApplicationContext().getPackageManager().getApplicationIcon(sbn.getOpPkg());
+//            bmp = getPackageManager().getResourcesForApplication(pack).getDrawable(extras.getInt(Notification.EXTRA_SMALL_ICON));
             notificationDb.notification_image = saveToInternalStorage(bmp);
             notificationDb.notification_text = sbn.getNotification().tickerText.toString();
             notificationDb.time_of_notification = Calendar.getInstance().getTimeInMillis();
-            notificationDb.name_of_app = sbn.getOpPkg();
+            notificationDb.name_of_app = appName;
             mainPresenter.saveNotificationToDataBase(notificationDb);
         } catch (PackageManager.NameNotFoundException e) {
             bmp = null;

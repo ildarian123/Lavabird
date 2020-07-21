@@ -3,6 +3,7 @@ package com.lavabird;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.lavabird.Base.entity.NotificationDb;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Date;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
@@ -41,8 +43,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         holder.name_of_app.setText(notificationItemList.get(position).name_of_app);
         holder.notification_text.setText(notificationItemList.get(position).notification_text);
-        holder.date_of_notification.setText(String.valueOf(notificationItemList.get(position).date_of_notification));
-        holder.time_of_notification.setText(String.valueOf(notificationItemList.get(position).time_of_notification));
+        String dateString = DateFormat.format("dd.MM.yy", new Date(notificationItemList.get(position).time_of_notification)).toString();
+        holder.date_of_notification.setText(String.valueOf(dateString));
+        holder.time_of_notification.setText(DateFormat.format("HH:mm", new Date(notificationItemList.get(position).time_of_notification)).toString());
 
         try {
             File f = new File(notificationItemList.get(position).notification_image);
