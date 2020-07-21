@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/work_group">
+        <item
+            android:id="@+id/action_orders"
+            android:orderInCategory="1"
+            android:title="111"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_refresh"
+            android:orderInCategory="2"
+            android:title="222" />
+        <item
+            android:id="@+id/action_exit"
+            android:orderInCategory="3"
+            android:title="333" />
+    </group>
+</menu>

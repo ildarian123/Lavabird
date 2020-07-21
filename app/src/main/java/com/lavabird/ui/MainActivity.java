@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainView{
     private TextView txtView;
     private BroadcastReceiver nReceiver;
     private Button startButton;
+    private Button menuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements MainView{
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();
             enableNotificationListenerAlertDialog.show();
         }
+        menuButton = findViewById(R.id.menu_button);
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         rv_notification_list = findViewById(R.id.rv_notification_list);
         adapter = new NotificationAdapter(dataBaseManager.getNotifications());
         rv_notification_list.setAdapter(adapter);
